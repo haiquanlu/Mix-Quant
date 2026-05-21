@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Mix-Quant project page." />
+    <meta
+      name="keywords"
+      content="Mix-Quant, quantized prefilling, precise decoding, agentic LLMs"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mix-Quant</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="assets/project.css" />
+  </head>
+  <body>
+    <nav class="top-nav" aria-label="Page navigation">
+      <a class="nav-brand" href="#">Mix-Quant</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#framework">Framework</a>
+        <a href="#experiments">Results</a>
+        <a href="#citation">BibTeX</a>
+        <a href="https://arxiv.org/abs/2605.20315">Paper</a>
+        <a href="https://github.com/haiquanlu/Mix-Quant">Code</a>
+      </div>
+      <a class="nav-logo" href="https://nus.edu.sg/" aria-label="National University of Singapore">
+        <img
+          src="https://nus.edu.sg/images/default-source/identity-images/NUS_logo_full-horizontal.jpg"
+          onerror="this.onerror=null;this.src='assets/nus_logo.svg';"
+          alt="National University of Singapore logo"
+        />
+      </a>
+    </nav>
+
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <div class="title-row">
+                <h1 class="title is-1 publication-title">
+                  Mix-Quant: Quantized Prefilling, Precise Decoding for Agentic LLMs
+                </h1>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Haiquan Lu</span>
+                <span class="author-block">Zigeng Chen</span>
+                <span class="author-block">Gongfan Fang</span>
+                <span class="author-block">Xinyin Ma</span>
+                <span class="author-block">Xinchao Wang<sup>&dagger;</sup></span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">National University of Singapore</span>
+              </div>
+
+              <div class="is-size-6 publication-authors">
+                <span class="author-block">haiquanlu@u.nus.edu</span>
+                <span class="author-block">xinchao@nus.edu.sg</span>
+              </div>
+
+              <div class="is-size-6 eql-cntrb">
+                <span><sup>&dagger;</sup>Corresponding author</span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2605.20315"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"><i class="ai ai-arxiv"></i></span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/haiquanlu/Mix-Quant"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"><i class="ai ai-open-access"></i></span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#framework" class="button is-normal is-rounded is-dark">
+                      <span>Framework</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#abstract" class="button is-normal is-rounded is-light">
+                      <span>Abstract</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#experiments" class="button is-normal is-rounded is-light">
+                      <span>Results</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#citation" class="button is-normal is-rounded is-light">
+                      <span>BibTeX</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+
+              <img
+                src="assets/intro.png"
+                class="intro-image"
+                alt="Mix-Quant overview"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                LLM agents have recently emerged as a powerful paradigm for solving complex tasks through planning, tool use, memory retrieval, and multi-step interaction. However, these agentic workflows often introduce substantial input-side overhead, making the compute-intensive prefilling stage a key bottleneck in long-context, multi-turn inference. 
+                In this work, we propose Mix-Quant, a simple and effective phase-aware quantization framework for fast agentic inference. We first investigate FP4 quantization in agentic LLM workflows and observe that quantizing the entire inference process can incur significant performance degradation. In contrast, the prefilling stage exhibits substantial quantization redundancy and can therefore be quantized with minimal accuracy loss, despite being the dominant source of computation. Based on this insight, we apply high-throughput NVFP4 quantization to the prefilling phase while preserving BF16 precision for decoding. By decoupling prefilling acceleration from decoding quality, Mix-Quant combines phase-aware algorithmic quantization with hardware-efficient NVFP4 execution to alleviate the inference bottleneck in LLM agents. 
+                Extensive experiments across long-context and agentic benchmarks demonstrate that Mix-Quant largely preserves task performance while delivering significant efficiency improvements, achieving up to a 3x speedup during prefilling.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section framework-section" id="framework">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Framework</h2>
+        <img
+          src="assets/framework.png"
+          class="teaser-image"
+          alt="Mix-Quant framework"
+        />
+        <p class="figure-caption">
+          Mix-Quant decouples NVFP4 prefilling from BF16 decoding for fast and stable agentic LLM inference.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="experiments">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+
+        <article class="result-panel table-panel">
+          <div class="panel-heading">
+            <p class="table-kicker">Table 1</p>
+            <h3>Agentic benchmark performance of Mix-Quant</h3>
+          </div>
+          <div class="paper-table-wrap">
+            <table class="paper-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>BFCL v4</th>
+                  <th>LongMemEval</th>
+                  <th><span class="math-symbol">τ<sup>2</sup></span>-bench</th>
+                  <th>Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Qwen3-8B</td><td class="second">40.50</td><td class="best">57.00</td><td class="best">31.06</td><td class="best">42.85</td></tr>
+                <tr><td>Qwen3-8B-NVFP4</td><td>38.77</td><td>49.82</td><td>27.34</td><td>38.64</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="best">40.63</td><td class="second">54.85</td><td class="second">28.86</td><td class="second">41.45</td></tr>
+                <tr><td>Qwen3.5-9B</td><td class="best">58.96</td><td class="best">86.27</td><td class="best">86.69</td><td class="best">77.31</td></tr>
+                <tr><td>Qwen3.5-9B-NVFP4</td><td>56.86</td><td>78.00</td><td>76.26</td><td>70.37</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="second">57.89</td><td class="second">84.27</td><td class="second">81.89</td><td class="second">74.68</td></tr>
+                <tr><td>Gemma-4-26B-A4B-it</td><td class="best">53.07</td><td class="best">80.50</td><td class="best">64.63</td><td class="best">66.07</td></tr>
+                <tr><td>Gemma-4-26B-A4B-it-NVFP4</td><td>48.13</td><td>62.42</td><td>57.31</td><td>55.95</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="second">51.94</td><td class="second">72.45</td><td class="second">60.62</td><td class="second">61.67</td></tr>
+                <tr><td>Gemma-4-31B-it</td><td class="second">68.60</td><td class="best">90.80</td><td class="best">73.50</td><td class="best">77.63</td></tr>
+                <tr><td>Gemma-4-31B-it-NVFP4</td><td class="best">68.69</td><td>89.20</td><td>70.74</td><td>76.21</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td>68.19</td><td class="second">90.40</td><td class="second">72.84</td><td class="second">77.14</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="result-panel table-panel">
+          <div class="panel-heading">
+            <p class="table-kicker">Table 2</p>
+            <h3>Reasoning and long-context benchmarks performance of Mix-Quant</h3>
+          </div>
+          <div class="paper-table-wrap">
+            <table class="paper-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Model</th>
+                  <th colspan="3">Reasoning</th>
+                  <th colspan="2">Long Context</th>
+                  <th rowspan="2">Avg.</th>
+                </tr>
+                <tr>
+                  <th>MATH500</th>
+                  <th>AIME24</th>
+                  <th>AIME25</th>
+                  <th>LongBench-V2</th>
+                  <th>AA-LCR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Qwen3-8B</td><td>93.73</td><td>75.54</td><td class="best">67.77</td><td class="best">39.86</td><td class="best">33.67</td><td class="best">62.11</td></tr>
+                <tr><td>Qwen3-8B-NVFP4</td><td>94.12</td><td>66.53</td><td>55.33</td><td>35.46</td><td>24.67</td><td>55.22</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="best">94.40</td><td class="best">76.66</td><td class="second">66.66</td><td class="second">38.60</td><td class="second">28.67</td><td class="second">61.00</td></tr>
+                <tr><td>Qwen3.5-9B</td><td class="best">94.85</td><td class="second">68.89</td><td class="best">60.00</td><td class="best">55.47</td><td class="best">81.00</td><td class="best">72.04</td></tr>
+                <tr><td>Qwen3.5-9B-NVFP4</td><td>93.46</td><td>54.44</td><td>40.00</td><td>50.40</td><td>78.00</td><td>63.26</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="second">94.32</td><td class="best">70.33</td><td class="second">56.67</td><td class="second">52.29</td><td class="second">79.33</td><td class="second">70.59</td></tr>
+                <tr><td>Gemma-4-26B-A4B-it</td><td class="best">95.86</td><td class="second">77.67</td><td class="second">65.33</td><td class="best">53.83</td><td class="best">67.00</td><td class="best">71.94</td></tr>
+                <tr><td>Gemma-4-26B-A4B-it-NVFP4</td><td>95.20</td><td>75.33</td><td>62.22</td><td>48.15</td><td>50.67</td><td>66.31</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td class="second">95.40</td><td class="best">78.67</td><td class="best">69.67</td><td class="second">51.57</td><td class="second">64.33</td><td class="second">71.93</td></tr>
+                <tr><td>Gemma-4-31B-it</td><td class="second">97.33</td><td>92.22</td><td class="best">82.22</td><td class="best">63.35</td><td class="best">76.67</td><td class="best">82.36</td></tr>
+                <tr><td>Gemma-4-31B-it-NVFP4</td><td class="best">97.75</td><td>83.33</td><td>80.00</td><td>58.55</td><td>71.67</td><td>78.26</td></tr>
+                <tr><td><strong>Mix-Quant</strong></td><td>97.20</td><td class="best">93.33</td><td class="second">81.11</td><td class="second">61.64</td><td class="second">73.67</td><td class="second">81.39</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="result-panel table-panel">
+          <div class="panel-heading">
+            <p class="table-kicker">Figure 1</p>
+            <h3>End-to-end prefill latency speedup of Mix-Quant over the BF16 baselines on NVIDIA RTX 5090 GPUs.</h3>
+          </div>
+          <figure class="curve-result">
+            <img
+              src="assets/speedup.svg"
+              alt="End-to-end prefill latency speedup of Mix-Quant over BF16 baselines on NVIDIA RTX 5090 GPUs"
+            />
+          </figure>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="citation">
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3 has-text-centered">BibTeX</h2>
+        <pre><code>@article{lu2026mixquant,
+  title={Mix-Quant: Quantized Prefilling, Precise Decoding for Agentic LLMs},
+  author={Lu, Haiquan and Chen, Zigeng and Fang, Gongfan and Ma, Xinyin and Wang, Xinchao},
+  journal={arXiv preprint arXiv:2605.20315},
+  year={2026}
+}</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            This page was adapted from the
+            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">
+              Academic Project Page Template
+            </a>.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
