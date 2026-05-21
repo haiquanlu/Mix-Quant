@@ -1,0 +1,4 @@
+[submodule "vllm"]
+	path = vllm
+	url = https://github.com/haiquanlu/vllm.git
+	branch = mix-quant
